@@ -1,8 +1,10 @@
 import {useEffect, useState} from "react";
+import Spinner from "./Spinner";
+import {Link, redirect} from "react-router-dom";
 
 const Table = () => {
     const [vehicles, setVehicles]  = useState([])
-
+    const [loading, setLoading] = useState(true)
 
     useEffect(()=>{
         const fetchVehicles = async () => {
@@ -11,18 +13,25 @@ const Table = () => {
             const responseJson = await response.json()
             console.log(responseJson._embedded.vehicles)
             setVehicles(responseJson._embedded.vehicles)
+            setLoading(false)
         }
 
-        fetchVehicles()
+        setTimeout(fetchVehicles,1000)
+
     },[])
 
     const deleteVehicle = async (id) => {
+
         const response = await fetch(`http://localhost:8080/vehicles/${id}`, {method: "DELETE"})
         const responseJson = await response.text()
         const vehicleId = JSON.parse(responseJson).id
 
         const newVehicles = vehicles.filter(vehicle => vehicle.id !== vehicleId)
         setVehicles(newVehicles)
+    }
+
+    if(loading){
+        return <Spinner/>
     }
 
     return (
@@ -64,15 +73,15 @@ const Table = () => {
                                     {vehicle.odometer}
                                 </td>
                                 <td className="p-3">
-                                    <span className="bg-green-500 text-gray-50  rounded-md px-2">{vehicle.status}</span>
+                                    <span className={`${vehicle.status === "EN_ROUTE" && "bg-blue-500"} ${vehicle.status === "AVAILABLE" && "bg-green-500"} ${vehicle.status === "OUT_OF_SERVICE" && "bg-red-500"} text-gray-50 rounded-md px-2`}>{vehicle.status}</span>
                                 </td>
                                 <td className="p-3">
-                                    <a href="#" className="text-gray-400 hover:text-gray-100 mr-2">
+                                    <Link to={`${vehicle.id}`} href="#" className="text-gray-400 hover:text-gray-100 mr-2">
                                         <i className="material-icons-outlined text-base">visibility</i>
-                                    </a>
-                                    <a href="#" className="text-gray-400 hover:text-gray-100 mx-2">
+                                    </Link>
+                                    <button  className="text-gray-400 hover:text-gray-100 mx-2">
                                         <i className="material-icons-outlined text-base">edit</i>
-                                    </a>
+                                    </button>
                                     <button onClick={() => deleteVehicle(vehicle.id)} className="text-gray-400 hover:text-gray-100 ml-2">
                                         <i className="material-icons-round text-base">delete_outline</i>
                                     </button>
