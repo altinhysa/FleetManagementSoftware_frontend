@@ -79,9 +79,9 @@ const Table = () => {
                                     <Link to={`${vehicle.id}`} href="#" className="text-gray-400 hover:text-gray-100 mr-2">
                                         <i className="material-icons-outlined text-base">visibility</i>
                                     </Link>
-                                    <button  className="text-gray-400 hover:text-gray-100 mx-2">
+                                    <Link to={`edit/${vehicle.id}`}  className="text-gray-400 hover:text-gray-100 mx-2" >
                                         <i className="material-icons-outlined text-base">edit</i>
-                                    </button>
+                                    </Link>
                                     <button onClick={() => deleteVehicle(vehicle.id)} className="text-gray-400 hover:text-gray-100 ml-2">
                                         <i className="material-icons-round text-base">delete_outline</i>
                                     </button>
