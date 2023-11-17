@@ -5,7 +5,7 @@ const Button = ( props : any ) => {
 
     return (
         <>
-            <button className="italic">{name}</button>
+            <button className="italic">{name} test</button>
         </>
     )
 }
