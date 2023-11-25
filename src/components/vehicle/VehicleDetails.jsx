@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import Spinner from "./Spinner";
-import MaintenanceCard from "./MaintenanceCard";
+import Spinner from "../Spinner";
+import MaintenanceCard from "../MaintenanceCard";
 
 const VehicleDetails = () => {
     const [vehicle,setVehicle] = useState({})

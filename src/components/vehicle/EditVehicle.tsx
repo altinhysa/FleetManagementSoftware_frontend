@@ -12,6 +12,8 @@ const EditVehicle = () => {
 
     const vehicleId = (window.location.pathname).split("/")[3]
 
+
+
     useEffect(() => {
         const getVehicle = async () => {
             const response = await fetch("http://localhost:8080/vehicles/" + vehicleId)
