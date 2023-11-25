@@ -1,10 +1,15 @@
 import {useEffect, useState} from "react";
 import Spinner from "./Spinner";
 import {Link, redirect} from "react-router-dom";
+import Modal from "./Modal";
+import Alert from "./Alert";
 
 const Table = () => {
     const [vehicles, setVehicles]  = useState([])
     const [loading, setLoading] = useState(true)
+    const [showModal, setShowModal] = useState(false)
+    const [showDeleteMessage, setShowDeleteMessage] = useState(false)
+    const [deleteMessage, setDeleteMessage] = useState("")
 
     useEffect(()=>{
         const fetchVehicles = async () => {
@@ -16,18 +21,20 @@ const Table = () => {
             setLoading(false)
         }
 
-        setTimeout(fetchVehicles,1000)
-
+        fetchVehicles()
     },[])
 
     const deleteVehicle = async (id) => {
 
         const response = await fetch(`http://localhost:8080/vehicles/${id}`, {method: "DELETE"})
         const responseJson = await response.text()
-        const vehicleId = JSON.parse(responseJson).id
 
-        const newVehicles = vehicles.filter(vehicle => vehicle.id !== vehicleId)
+
+        const newVehicles = vehicles.filter(vehicle => vehicle.id !== id)
         setVehicles(newVehicles)
+        setShowDeleteMessage(true)
+        setDeleteMessage("Sucessfully deleted vehicle")
+        setShowModal(false)
     }
 
     if(loading){
@@ -38,6 +45,7 @@ const Table = () => {
         <div className="grow flex items-center justify-center min-h-screen bg-gray-900">
             <div className="col-span-12 grow m-6">
                 <div className="overflow-auto lg:overflow-visible ">
+                    {showDeleteMessage && <Alert showDeleteMessage={setShowDeleteMessage} message={deleteMessage}/>}
                     <table className="table text-gray-400 border-separate space-y-6 text-sm w-full">
                         <thead className="bg-gray-800 text-gray-500">
                         <tr>
@@ -82,9 +90,11 @@ const Table = () => {
                                     <Link to={`edit/${vehicle.id}`}  className="text-gray-400 hover:text-gray-100 mx-2" >
                                         <i className="material-icons-outlined text-base">edit</i>
                                     </Link>
-                                    <button onClick={() => deleteVehicle(vehicle.id)} className="text-gray-400 hover:text-gray-100 ml-2">
+                                    <button onClick={() => setShowModal(true)} className="text-gray-400 hover:text-gray-100 ml-2">
                                         <i className="material-icons-round text-base">delete_outline</i>
                                     </button>
+                                    {showModal && <Modal setShowModal={setShowModal} deleteVehicle={() => deleteVehicle(vehicle.id)}/>}
+
                                 </td>
                             </tr>
                         ))}
