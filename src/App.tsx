@@ -1,11 +1,15 @@
 import React from 'react';
 import './App.css';
-import Table from "./components/Table.jsx";
+import Table from "./components/vehicle/Table.jsx";
 import Navbar from "./components/Navbar";
 import {BrowserRouter as Router, Route, Link, Routes} from "react-router-dom";
-import VehicleForm from "./components/VehicleForm";
-import VehicleDetails from "./components/VehicleDetails.jsx";
-import EditVehicle from "./components/EditVehicle";
+import VehicleForm from "./components/vehicle/VehicleForm";
+import VehicleDetails from "./components/vehicle/VehicleDetails.jsx";
+import EditVehicle from "./components/vehicle/EditVehicle";
+import DriverTable from "./components/driver/DriverTable";
+import DriverForm from "./components/driver/DriverForm";
+import EditDriver from "./components/driver/EditDriver";
+import DriverView from "./components/driver/DriverView";
 
 function App() {
     let asd = true
@@ -20,6 +24,10 @@ function App() {
               <Route path="/addVehicle" element={<VehicleForm/>}/>
               <Route path="/vehicles/:id" element={<VehicleDetails/>}/>
               <Route path="/vehicles/edit/:id" element={<EditVehicle/>}/>
+              <Route path="/drivers" element={<DriverTable/>}/>
+              <Route path="/addDriver" element={<DriverForm/>}/>
+              <Route path="/drivers/edit/:id" element={<EditDriver/>}/>
+              <Route path="/drivers/:id" element={<DriverView/>}/>
           </Routes>
           </div>
       </Router>

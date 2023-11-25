@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import Spinner from "./Spinner";
+import Spinner from "../Spinner";
 import {Link, redirect} from "react-router-dom";
 import Modal from "./Modal";
 import Alert from "./Alert";
