@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import Spinner from "../Spinner";
 import {Link, redirect} from "react-router-dom";
-import Modal from "./Modal";
-import Alert from "./Alert";
+import Modal from "../Modal";
+import Alert from "../Alert";
 
 const Table = () => {
     const [vehicles, setVehicles]  = useState([])
@@ -27,12 +27,18 @@ const Table = () => {
     const deleteVehicle = async (id) => {
 
         const response = await fetch(`http://localhost:8080/vehicles/${id}`, {method: "DELETE"})
-        const responseJson = await response.text()
+        const responseJson = await response.json()
+        console.log(responseJson)
 
+        if(responseJson.status !== 200){
+            setShowDeleteMessage(true)
+            setDeleteMessage("Failed deleting vehicle it is assigned to a driver or trip")
+            setShowModal(false)
+            return;
+        }
 
         const newVehicles = vehicles.filter(vehicle => vehicle.id !== id)
         setVehicles(newVehicles)
-        setShowDeleteMessage(true)
         setDeleteMessage("Sucessfully deleted vehicle")
         setShowModal(false)
     }

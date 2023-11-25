@@ -57,7 +57,7 @@ const DriverView = (props: any) => {
                                     <div className="flex flex-col items-stretch w-[23%] max-md:w-full max-md:ml-0">
                                         <img
                                             loading="lazy"
-                                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/f5a506b9-56f4-4628-99ca-d790e7c3ff43?"
+                                            src="https://cdn0.iconfinder.com/data/icons/people-lifestyle/100/People-09-2-512.png"
                                             className="aspect-[1.01] object-contain object-center w-[105px] overflow-hidden shrink-0 max-w-full grow max-md:mt-5"
                                         />
                                     </div>
