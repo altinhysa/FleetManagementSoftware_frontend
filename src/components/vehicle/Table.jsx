@@ -48,7 +48,7 @@ const Table = () => {
     }
 
     return (
-        <div className="grow flex items-center justify-center min-h-screen bg-gray-900">
+        <div className="grow flex items-center justify-center min-h-screen bg-gray-900/[.1]">
             <div className="col-span-12 grow m-6">
                 <div className="overflow-auto lg:overflow-visible ">
                     {showDeleteMessage && <Alert showDeleteMessage={setShowDeleteMessage} message={deleteMessage}/>}

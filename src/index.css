@@ -18,3 +18,8 @@ code {
 .left-fixed {
   left: 35%;
 }
+
+tspan,text {
+  fill: white;
+  color: white!important;
+}
