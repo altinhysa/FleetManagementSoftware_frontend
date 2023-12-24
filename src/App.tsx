@@ -11,6 +11,7 @@ import DriverForm from "./components/driver/DriverForm";
 import EditDriver from "./components/driver/EditDriver";
 import DriverView from "./components/driver/DriverView";
 import {Dashboard} from "./components/dashboard/Dashboard";
+import {Assignment} from "./components/assignments/Assignment";
 
 function App() {
     let asd = true
@@ -30,6 +31,7 @@ function App() {
               <Route path="/addDriver" element={<DriverForm/>}/>
               <Route path="/drivers/edit/:id" element={<EditDriver/>}/>
               <Route path="/drivers/:id" element={<DriverView/>}/>
+              <Route path="/assignment" element={<Assignment/>}/>
           </Routes>
           </div>
       </Router>

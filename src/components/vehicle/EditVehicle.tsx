@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import axios from "axios";
 
 const EditVehicle = () => {
     const [brand, setBrand] = useState("");
@@ -16,7 +17,7 @@ const EditVehicle = () => {
 
     useEffect(() => {
         const getVehicle = async () => {
-            const response = await fetch("http://localhost:8080/vehicles/" + vehicleId)
+            const response = await fetch("http://localhost:8080/api/vehicles/" + vehicleId)
 
             const vehicle = await response.json()
             console.log(vehicle)
@@ -45,20 +46,14 @@ const EditVehicle = () => {
             yearOfProduced: yearOfProduced,
             active: active
         }
-            const
-        requestOptions = {
-            method: "PUT",
-            body: JSON.stringify(vehicle),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }
-        const response = await fetch("http://localhost:8080/vehicles/" + vehicleId, requestOptions)
-        const responseJson = await response.json()
-        if (responseJson) {
+
+
+        console.log(vehicle)
+        const response = await axios.put("http://localhost:8080/api/vehicles/" + vehicleId, vehicle)
+        if (response.status === 200) {
             window.location.href = ("/vehicles")
         }
-        console.log(responseJson)
+        console.log(response)
 
     }
 

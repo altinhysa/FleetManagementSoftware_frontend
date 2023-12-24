@@ -7,51 +7,31 @@ import Alert from "../Alert";
 const Table = () => {
     const [vehicles, setVehicles]  = useState([])
     const [loading, setLoading] = useState(true)
-    const [showModal, setShowModal] = useState(false)
-    const [showDeleteMessage, setShowDeleteMessage] = useState(false)
-    const [deleteMessage, setDeleteMessage] = useState("")
+
 
     useEffect(()=>{
         const fetchVehicles = async () => {
 
-            const response = await fetch("http://localhost:8080/vehicles")
+            const response = await fetch("http://localhost:8080/api/vehicles")
             const responseJson = await response.json()
-            console.log(responseJson._embedded.vehicles)
-            setVehicles(responseJson._embedded.vehicles)
+            console.log(responseJson.content)
+            setVehicles(responseJson.content)
             setLoading(false)
         }
 
         fetchVehicles()
     },[])
 
-    const deleteVehicle = async (id) => {
 
-        const response = await fetch(`http://localhost:8080/vehicles/${id}`, {method: "DELETE"})
-        const responseJson = await response.json()
-        console.log(responseJson)
-
-        if(responseJson.status !== 200){
-            setShowDeleteMessage(true)
-            setDeleteMessage("Failed deleting vehicle it is assigned to a driver or trip")
-            setShowModal(false)
-            return;
-        }
-
-        const newVehicles = vehicles.filter(vehicle => vehicle.id !== id)
-        setVehicles(newVehicles)
-        setDeleteMessage("Sucessfully deleted vehicle")
-        setShowModal(false)
-    }
 
     if(loading){
         return <Spinner/>
     }
 
     return (
-        <div className="grow flex items-center justify-center min-h-screen bg-gray-900/[.1]">
+        <div className="grow flex items-center justify-center min-h-screen bg-gray-900">
             <div className="col-span-12 grow m-6">
                 <div className="overflow-auto lg:overflow-visible ">
-                    {showDeleteMessage && <Alert showDeleteMessage={setShowDeleteMessage} message={deleteMessage}/>}
                     <table className="table text-gray-400 border-separate space-y-6 text-sm w-full">
                         <thead className="bg-gray-800 text-gray-500">
                         <tr>
@@ -96,10 +76,6 @@ const Table = () => {
                                     <Link to={`edit/${vehicle.id}`}  className="text-gray-400 hover:text-gray-100 mx-2" >
                                         <i className="material-icons-outlined text-base">edit</i>
                                     </Link>
-                                    <button onClick={() => setShowModal(true)} className="text-gray-400 hover:text-gray-100 ml-2">
-                                        <i className="material-icons-round text-base">delete_outline</i>
-                                    </button>
-                                    {showModal && <Modal setShowModal={setShowModal} deleteVehicle={() => deleteVehicle(vehicle.id)}/>}
 
                                 </td>
                             </tr>

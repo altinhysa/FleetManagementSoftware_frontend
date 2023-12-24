@@ -14,7 +14,7 @@ const EditDriver = () => {
 
     useEffect(() => {
         const getDriver = async () => {
-            const response = await fetch("http://localhost:8080/drivers/" + driverId)
+            const response = await fetch("http://localhost:8080/api/drivers/" + driverId)
 
             const driver = await response.json()
             console.log(driver)
@@ -49,7 +49,7 @@ const EditDriver = () => {
                 "Content-Type": "application/json"
             }
         }
-        const response = await fetch("http://localhost:8080/drivers/" + driverId, requestOptions)
+        const response = await fetch("http://localhost:8080/api/drivers/" + driverId, requestOptions)
         const responseJson = await response.json()
         if (responseJson) {
             window.location.href = ("/drivers")
@@ -123,7 +123,7 @@ const EditDriver = () => {
                     <div>
                         <label className="relative inline-flex items-center mb-5 cursor-pointer">
 
-                            <input type="checkbox" onChange={e => setAvailable(e.target.checked)} value={'available'}
+                            <input type="checkbox" onChange={e => setAvailable(e.target.checked)} checked={available}
                                    className="sr-only peer"/>
                             <div
                                 className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -133,7 +133,7 @@ const EditDriver = () => {
 
                     <div>
                         <label className="relative inline-flex items-center mb-5 cursor-pointer">
-                            <input type="checkbox" onChange={e => setActive(e.target.checked)} value={'active'}
+                            <input type="checkbox" onChange={e => setActive(e.target.checked)} checked={active}
                                    className="sr-only peer"/>
                             <div
                                 className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>

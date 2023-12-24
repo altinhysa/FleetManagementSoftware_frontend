@@ -6,11 +6,7 @@ import {Typography} from "@mui/material";
 export const Dashboard = () => {
     const [spendings,setSpendings] = useState(0)
     const [pieData, setPieData] : any = useState([])
-    let data : any = [
-        {  value: 1, label: 'EN ROUTE',},
-        { value: 4, label: 'AVAILABLE' },
-        {  value: 5, label: 'OUT OF SERVICE' },
-    ]
+
 
     useEffect( ()=> {
         const getSpendings =  async () => {
@@ -23,7 +19,7 @@ export const Dashboard = () => {
 
     useEffect(() => {
         const getStatusCount = async () => {
-            const response = await axios.get("http://localhost:8080/vehicles/statusCount")
+            const response = await axios.get("http://localhost:8080/api/vehicles/statusCount")
             const data : any = []
             Object.keys(response.data).forEach(key => {
                 data.push ({
@@ -41,13 +37,13 @@ export const Dashboard = () => {
 
     return (
         <div className="grow">
-            <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+            <div className="p-4  rounded-lg dark:border-gray-700">
                 <div className="grid grid-cols-2 gap-4 mb-4">
                         <div className="w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
                             <div className="flex justify-between">
                                 <div>
                                     <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">${spendings}</h5>
-                                    <p className="text-base font-normal text-gray-500 dark:text-gray-400">Spendings this week</p>
+                                    <p className="text-base font-normal text-gray-500 dark:text-gray-400">Trip Spendings this week</p>
                                 </div>
                                 <div
                                     className="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
