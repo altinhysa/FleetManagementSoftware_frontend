@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {Link} from "react-router-dom";
+import Alert from "../Alert";
 
 const VehicleForm = () => {
     const [brand, setBrand] = useState("");
@@ -10,7 +11,7 @@ const VehicleForm = () => {
     const [odometer, setOdometer] = useState(0);
     const [yearOfProduced, setYearOfProduced] = useState(0);
     const [active, setActive] = useState(false);
-
+    const [message, setMessage] = useState("")
     const addVehicle = async (e : any) => {
         e.preventDefault()
         const vehicle = {
@@ -34,7 +35,11 @@ const VehicleForm = () => {
             }
         }
 
-        const response = await fetch("http://localhost:8080/vehicles",requestOptions)
+        const response = await fetch("http://localhost:8080/api/vehicles",requestOptions)
+        if (!response.ok){
+            setMessage("Error bla bla")
+            return
+        }
         const responseJson = await response.json()
 
         if (responseJson){
@@ -48,6 +53,8 @@ const VehicleForm = () => {
 
         <div className="grow flex items-center justify-center min-h-screen bg-gray-900 p-6">
             <form className="md:container m-6 bg-slate-950 p-6">
+                <h1 className="py-10 text-white text-4xl">Add new vehicle</h1>
+                {message && <Alert message={message} />}
                 <div className="relative z-0 w-full mb-6 group">
                     <input onChange={(e) => setBrand(e.target.value)}  type="email" name="floating_email" id="floating_email"
                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"

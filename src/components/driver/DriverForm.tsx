@@ -44,6 +44,7 @@ const DriverForm = () => {
 
         <div className="grow flex items-center justify-center min-h-screen bg-gray-900 p-6">
             <form className="md:container m-6 bg-slate-950 p-6">
+                <h1 className="py-10 text-white text-4xl">Add new driver</h1>
                 <div className="relative z-0 w-full mb-6 group">
                     <input onChange={(e) => setName(e.target.value)} type="email" name="floating_email"
                            id="floating_email"

@@ -1,18 +1,22 @@
 import {useEffect, useState} from "react";
 import Spinner from "../Spinner";
 import MaintenanceCard from "../MaintenanceCard";
+import Modal from "../Modal";
+import Alert from "../Alert";
 
 const VehicleDetails = () => {
     const [vehicle,setVehicle] = useState({})
     const [loading, setLoading] = useState(true)
     const [maintenances, setMaintenances] = useState([])
-
+    const [showDeleteMessage, setShowDeleteMessage] = useState(false)
+    const [deleteMessage, setDeleteMessage] = useState("")
+    const [showModal, setShowModal] = useState(false)
     const vehicleId = (window.location.pathname).split('/')[2]
 
     useEffect(()=> {
         const getVehicle = async () => {
 
-            const response = await fetch("http://localhost:8080/vehicles/" + vehicleId)
+            const response = await fetch("http://localhost:8080/api/vehicles/" + vehicleId)
             const responseJson = await response.json()
 
             setVehicle(responseJson)
@@ -27,7 +31,7 @@ const VehicleDetails = () => {
     useEffect(()=> {
         const getMaintenances = async () => {
 
-            const response = await fetch(`http://localhost:8080/vehicles/${vehicleId}/maintenances`)
+            const response = await fetch(`http://localhost:8080/api/vehicles/${vehicleId}/maintenances`)
             const responseJson = await response.json()
 
             console.log(responseJson)
@@ -40,6 +44,26 @@ const VehicleDetails = () => {
 
     },[])
 
+    const deleteVehicle = async () => {
+
+
+            const response = await fetch(`http://localhost:8080/api/vehicles/${vehicleId}`, {method: "DELETE"})
+            console.log(response)
+            if(response.status !== 200){
+                setShowDeleteMessage(true)
+                setDeleteMessage("Failed deleting vehicle it is assigned to a driver or trip")
+                setShowModal(false)
+                return;
+            }
+            setShowDeleteMessage(true)
+
+            setVehicle({})
+            setDeleteMessage("Sucessfully deleted vehicle")
+            setShowModal(false)
+
+
+
+    }
 
     if(loading){
         <Spinner/>
@@ -70,10 +94,23 @@ const VehicleDetails = () => {
 
                         <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">Driver</p>
                         <p  className="inline-flex items-center text-white">
-                            None
+                            {vehicle.driver ? vehicle.driver : "none"}
 
                         </p>
                     </div>
+
+
+
+
+                </div>
+                <div className="mt-6">
+                    {showModal && <Modal setShowModal={setShowModal}  deleteVehicle={deleteVehicle}/>
+                    }
+                    <button onClick={() => setShowModal(true)} type="button"
+                            className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete
+                    </button>
+                    {showDeleteMessage && <Alert showDeleteMessage={setShowDeleteMessage} message={deleteMessage}/>}
+
                 </div>
 
             </div>

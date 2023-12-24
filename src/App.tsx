@@ -10,6 +10,8 @@ import DriverTable from "./components/driver/DriverTable";
 import DriverForm from "./components/driver/DriverForm";
 import EditDriver from "./components/driver/EditDriver";
 import DriverView from "./components/driver/DriverView";
+import {Dashboard} from "./components/dashboard/Dashboard";
+import {Assignment} from "./components/assignments/Assignment";
 
 function App() {
     let asd = true
@@ -20,6 +22,7 @@ function App() {
           <Navbar/>
 
           <Routes>
+              <Route path="/dashboard" element={<Dashboard/>}/>
               <Route path="/vehicles" element={<Table/>}/>
               <Route path="/addVehicle" element={<VehicleForm/>}/>
               <Route path="/vehicles/:id" element={<VehicleDetails/>}/>
@@ -28,6 +31,7 @@ function App() {
               <Route path="/addDriver" element={<DriverForm/>}/>
               <Route path="/drivers/edit/:id" element={<EditDriver/>}/>
               <Route path="/drivers/:id" element={<DriverView/>}/>
+              <Route path="/assignment" element={<Assignment/>}/>
           </Routes>
           </div>
       </Router>

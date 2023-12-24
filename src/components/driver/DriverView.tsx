@@ -16,7 +16,7 @@ const DriverView = (props: any) => {
 
     useEffect(() => {
         const getDriver = async () => {
-            const response = await fetch("http://localhost:8080/drivers/" + driverId)
+            const response = await fetch("http://localhost:8080/api/drivers/" + driverId)
             const driver = await response.json()
 
             setName(driver.name)

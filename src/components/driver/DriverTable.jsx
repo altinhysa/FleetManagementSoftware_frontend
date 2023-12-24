@@ -8,11 +8,11 @@ const DriverTable = () => {
 
     useEffect(() => {
         const fetchDrivers = async () => {
-            const response = await fetch("http://localhost:8080/drivers")
+            const response = await fetch("http://localhost:8080/api/drivers")
             const responseJson = await response.json()
             console.log(responseJson)
-            console.log(responseJson._embedded.drivers)
-            setDrivers(responseJson._embedded.drivers)
+            console.log(responseJson.content)
+            setDrivers(responseJson.content)
             setLoading(false)
         }
         fetchDrivers()
@@ -22,12 +22,18 @@ const DriverTable = () => {
 
     const deleteDriver = async (id) => {
 
-        const response = await fetch(`http://localhost:8080/drivers/${id}`, {method: "DELETE"})
-        const responseJson = await response.text()
-        const driverId = JSON.parse(responseJson).id
+        try {
+            const response = await fetch(`http://localhost:8080/api/drivers/${id}`, {method: "DELETE"})
+            console.log(response)
+            const responseJson = await response.json()
 
-        const newDrivers =drivers.filter(driver => driver.id !== driverId)
-        setDrivers(newDrivers)
+
+            const newDrivers =drivers.filter(driver => driver.id !== id)
+            setDrivers(newDrivers)
+        } catch (err){
+            console.log(err.message)
+        }
+
 
     }
     if (loading){
