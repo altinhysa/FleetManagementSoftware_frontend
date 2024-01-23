@@ -12,6 +12,8 @@ import EditDriver from "./components/driver/EditDriver";
 import DriverView from "./components/driver/DriverView";
 import {Dashboard} from "./components/dashboard/Dashboard";
 import {Assignment} from "./components/assignments/Assignment";
+import TripTable from "./components/trips/TripTable";
+import TripForm from "./components/trips/TripForm";
 
 function App() {
     let asd = true
@@ -22,7 +24,7 @@ function App() {
           <Navbar/>
 
           <Routes>
-              <Route path="/dashboard" element={<Dashboard/>}/>
+              <Route path="/" element={<Dashboard/>}/>
               <Route path="/vehicles" element={<Table/>}/>
               <Route path="/addVehicle" element={<VehicleForm/>}/>
               <Route path="/vehicles/:id" element={<VehicleDetails/>}/>
@@ -32,6 +34,8 @@ function App() {
               <Route path="/drivers/edit/:id" element={<EditDriver/>}/>
               <Route path="/drivers/:id" element={<DriverView/>}/>
               <Route path="/assignment" element={<Assignment/>}/>
+              <Route path="/trips" element={<TripTable/>}/>
+              <Route path="/addTrip" element={<TripForm/>}/>
           </Routes>
           </div>
       </Router>

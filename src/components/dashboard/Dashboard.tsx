@@ -2,6 +2,7 @@ import {pieArcLabelClasses, PieChart} from "@mui/x-charts";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {Typography} from "@mui/material";
+import {API_URL} from "../../constants/api";
 
 export const Dashboard = () => {
     const [spendings,setSpendings] = useState(0)
@@ -10,7 +11,7 @@ export const Dashboard = () => {
 
     useEffect( ()=> {
         const getSpendings =  async () => {
-            const response = await axios.get("http://localhost:8080/trips/spendings")
+            const response = await axios.get(`${API_URL}/trips/spendings`)
             setSpendings(response.data)
         }
 
