@@ -1,4 +1,7 @@
 import {useState} from "react";
+import {API_URL} from "../../constants/api";
+import Alert from "../Alert";
+import axios from "axios";
 
 const DriverForm = () => {
     const [name, setName] = useState("")
@@ -9,6 +12,13 @@ const DriverForm = () => {
     const [telephone, setTelephone] = useState("")
     const [active, setActive] = useState(false)
     const [available, setAvailable] = useState(false)
+
+    const [message,setMessage] = useState("")
+    const [showMessage, setShowMessage] = useState(false)
+
+    const disableMessage = () => {
+        setShowMessage(false)
+    }
 
     const addDriver = async (e: any) => {
         e.preventDefault()
@@ -24,26 +34,24 @@ const DriverForm = () => {
         }
         console.log(driver)
 
-        const requestOptions = {
-            method: "POST",
-            body: JSON.stringify(driver),
-            headers: {
-                "Content-Type": "application/json"
+        try{
+            const response = await axios.post(`${API_URL}/drivers`, driver)
+            if (response) {
+                window.location.href = "/drivers"
             }
+        }catch (e){
+            setMessage("Check all fields")
+            setShowMessage(true)
         }
 
-        const response = await fetch("http://localhost:8080/drivers", requestOptions)
-        const responseJson = await response.json()
 
-        if (responseJson) {
-            window.location.href = "/drivers"
-        }
-        console.log(responseJson)
     }
     return (
 
         <div className="grow flex items-center justify-center min-h-screen bg-gray-900 p-6">
             <form className="md:container m-6 bg-slate-950 p-6">
+                {showMessage && <Alert message={message} showDeleteMessage={disableMessage}/>}
+
                 <h1 className="py-10 text-white text-4xl">Add new driver</h1>
                 <div className="relative z-0 w-full mb-6 group">
                     <input onChange={(e) => setName(e.target.value)} type="email" name="floating_email"

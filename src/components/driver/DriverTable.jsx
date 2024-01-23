@@ -1,17 +1,25 @@
 import {useEffect, useState} from "react";
 import Spinner from "../Spinner";
 import {Link} from "react-router-dom";
+import {API_URL} from "../../constants/api";
+import {Pagination} from "../../utils/Pagination";
 
 const DriverTable = () => {
     const [drivers, setDrivers] = useState([])
     const [loading, setLoading] = useState(true)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalDrivers, setTotalDrivers] = useState(0);
+    const [totalPages, setTotalPages] = useState(0)
 
     useEffect(() => {
         const fetchDrivers = async () => {
-            const response = await fetch("http://localhost:8080/api/drivers")
+            const response = await fetch(`${API_URL}/drivers?page${currentPage}`)
             const responseJson = await response.json()
             console.log(responseJson)
             console.log(responseJson.content)
+
+            setTotalPages(responseJson.totalPages)
+            setTotalDrivers(responseJson.totalElements)
             setDrivers(responseJson.content)
             setLoading(false)
         }
@@ -28,17 +36,20 @@ const DriverTable = () => {
             const responseJson = await response.json()
 
 
-            const newDrivers =drivers.filter(driver => driver.id !== id)
+            const newDrivers = drivers.filter(driver => driver.id !== id)
             setDrivers(newDrivers)
-        } catch (err){
+        } catch (err) {
             console.log(err.message)
         }
 
 
     }
-    if (loading){
+    if (loading) {
         return <Spinner/>
     }
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber)
+
     return (
         <div className="grow flex items-center justify-center min-h-screen bg-gray-900">
             <div className="col-span-12 grow m-6">
@@ -76,21 +87,25 @@ const DriverTable = () => {
                                 </td>
                                 <td className="p-3">
                                     {driver.active}
-                                    <span className={`${driver.active === true && "bg-blue-500"} ${driver.active === false && "bg-red-500"} text-gray-50 rounded-md px-2`}>{driver.active.toString()}</span>
+                                    <span
+                                        className={`${driver.active === true && "bg-blue-500"} ${driver.active === false && "bg-red-500"} text-gray-50 rounded-md px-2`}>{driver.active.toString()}</span>
 
                                 </td>
                                 <td className="p-3">
-                                    <span className={`${driver.available === true && "bg-blue-500"} ${driver.available === false && "bg-red-500"} text-gray-50 rounded-md px-2`}>{driver.available.toString()}</span>
+                                    <span
+                                        className={`${driver.available === true && "bg-blue-500"} ${driver.available === false && "bg-red-500"} text-gray-50 rounded-md px-2`}>{driver.available.toString()}</span>
 
                                 </td>
                                 <td className="p-3">
-                                    <Link to={`${driver.id}`} href="#" className="text-gray-400 hover:text-gray-100 mr-2">
+                                    <Link to={`${driver.id}`} href="#"
+                                          className="text-gray-400 hover:text-gray-100 mr-2">
                                         <i className="material-icons-outlined text-base">visibility</i>
                                     </Link>
-                                    <Link to={`edit/${driver.id}`}  className="text-gray-400 hover:text-gray-100 mx-2" >
+                                    <Link to={`edit/${driver.id}`} className="text-gray-400 hover:text-gray-100 mx-2">
                                         <i className="material-icons-outlined text-base">edit</i>
                                     </Link>
-                                    <button onClick={() => deleteDriver(driver.id)} className="text-gray-400 hover:text-gray-100 ml-2">
+                                    <button onClick={() => deleteDriver(driver.id)}
+                                            className="text-gray-400 hover:text-gray-100 ml-2">
                                         <i className="material-icons-round text-base">delete_outline</i>
                                     </button>
                                 </td>
@@ -98,6 +113,8 @@ const DriverTable = () => {
                         ))}
                         </tbody>
                     </table>
+                    <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate}/>
+
                 </div>
             </div>
         </div>
